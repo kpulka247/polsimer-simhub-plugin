@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <OutputType>Library</OutputType>
+    <AssemblyName>Polsimer.SimHub.Plugin</AssemblyName>
+    <RootNamespace>Polsimer.SimHub.Plugin</RootNamespace>
+
+    <!-- Package and Assembly Metadata -->
+    <Version>1.0.0</Version>
+    <Authors>kpulka247</Authors>
+    <Product>Polsimer F74LED Native SimHub Integration</Product>
+    <Description>Native SimHub LED Manager driver for Polsimer F74LED steering wheel</Description>
+
+    <Platforms>AnyCPU</Platforms>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- SimHub 64-bit Dependencies from Drive D: -->
+    <Reference Include="SimHub.Plugins">
+      <HintPath>D:\Program Files (x86)\SimHub\SimHub.Plugins.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="GameReaderCommon">
+      <HintPath>D:\Program Files (x86)\SimHub\GameReaderCommon.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="HidSharp">
+      <HintPath>D:\Program Files (x86)\SimHub\HidSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="BA63Driver">
+      <HintPath>D:\Program Files (x86)\SimHub\BA63Driver.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>D:\Program Files (x86)\SimHub\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+</Project>

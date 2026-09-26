@@ -1,0 +1,34 @@
+﻿# .NET build output
+**/bin/
+**/obj/
+
+# IDE and user-specific files
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# SimHub runtime data
+PluginsData/
+
+# SimHub assemblies and generated installers
+**/*.dll
+**/*.exe
+
+# Release packages are uploaded to GitHub Releases, not committed
+/release/
+
+# Operating system files
+Thumbs.db
+.DS_Store
+
+# Local secrets and machine-specific configuration
+.env
+.env.*
+!.env.example
+**/[nN]u[gG]et.[cC]onfig
+**/secrets.json
+**/secrets.*.json
+**/*credentials*.json
