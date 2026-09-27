@@ -15,30 +15,17 @@
 
 ## Overview
 
-A native C# plugin and telemetry-driven LED profile for the **Polsimer F74LED** steering wheel in **SimHub**. Direct USB HID communication handled internally by SimHub's output manager without external middleware or background utilities.
+A native C# plugin that connects the **Polsimer F74LED** steering wheel to SimHub's LED Effects Engine. It sends SimHub's LED output directly to the wheel over USB HID, without external middleware or background utilities.
 
 ## Features
 
 * 🔌 **Native HID driver** — Operates directly inside SimHub process memory with 60 Hz hardware connection polling.
 * ☀️ **Hardware brightness** — Native integration with SimHub's global brightness slider and Day/Night mode presets.
-* 💾 **Persistent settings** — Retains brightness levels, active profiles, and hardware states across restarts.
+* 💾 **Persistent settings** — Retains brightness levels and hardware states across restarts.
 * ⚡ **Frame state sync** — Automatically resets timeline offsets on USB re-plug and game state changes to prevent frame desynchronization.
+* 🎮 **SimHub LED effects** — Displays effects configured in SimHub on the wheel's 12 LEDs, including game telemetry and track status.
 
 ![SimHub Interface](docs/images/settings_preview.png)
-
-## Included LED Profile
-
-* **Smart RPM** — Telemetry-matched rev progression supporting GT3 (symmetrical inward) and single-seater/formula (left-to-right) curves.
-* **Split-Side Assists** — Dedicated yellow ABS indicator (left 6 LEDs) and deep-blue Traction Control indicator (right 6 LEDs).
-* **Shift Alert** — High-visibility cyan strobe triggering on optimal shift point and redline.
-* **Speed-Aware Pit Limiter** — 3-stage visual feedback adapting to stationary pit box, rolling speed, and pit limiter threshold.
-* **Marshall Flags Suite** — Real-time track status indicators for Yellow, Blue, Green, White, Red, Black, Slippery/Debris, Safety Car, and a 10-second Checkered flag.
-* **Damage Alert** — Symmetrical orange pulse responding to aero, suspension, or engine damage telemetry.
-* **Engine Startup & Idle Presets** — Ignition sweep sequence and 5 selectable idle wave color schemes (Deep Blue, Crimson Red, Amber & Gold, Polsimer Tribute, Prism Spectrum).
-
-> ⚙️ **Profile customization:** Every effect is built as an independent layer. Inside the **Polsimer F74LED** tab, click **Edit profile** to toggle individual effects on/off, reorder layer priority, adjust colors, or fine-tune trigger thresholds.
-
-> 💡 **Custom profiles:** Using the included `Polsimer_F74LED.ledsprofile` is completely optional. The plugin acts as the native hardware bridge, unlocking SimHub's full LED module for the wheel — you are free to build custom LED profiles from scratch or import any third-party profiles.
 
 ## Installation
 
@@ -49,13 +36,13 @@ A native C# plugin and telemetry-driven LED profile for the **Polsimer F74LED** 
 3. Run `setup.exe` and click **Install / update**
 4. Open **SimHub**, click **Add/remove features** at the bottom of the left sidebar, and check **Polsimer F74LED**
 5. Select the new **Polsimer F74LED** tab in the left navigation menu
-6. Under **Telemetry Leds**, click **Import profile**, choose `Polsimer_F74LED.ledsprofile`, and load it (or build/select your own custom profile)
+6. Use SimHub's LED Effects settings to configure the effects you want displayed on the wheel
 
 ### 🛠️ Manual
 
 1. Copy `Polsimer.SimHub.Plugin.dll` into your SimHub installation folder (e.g., `C:\Program Files (x86)\SimHub\` or `D:\SimHub\`)
 2. Start SimHub, go to **Add/remove features** (or **Settings → Plugins**), and enable **Polsimer F74LED**
-3. Open the **Polsimer F74LED** tab, import `Polsimer_F74LED.ledsprofile`, or create a profile from scratch
+3. Use SimHub's LED Effects settings to configure the effects you want displayed on the wheel
 
 ## Uninstallation
 

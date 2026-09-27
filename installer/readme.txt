@@ -4,12 +4,10 @@
   GitHub: https://github.com/kpulka247/polsimer-simhub-plugin
 ============================================================
 
-NOTE ON LED PROFILES:
-The included "Polsimer_F74LED.ledsprofile" is completely optional.
-The plugin acts as a native hardware driver enabling SimHub
-control over the wheel's 12 LEDs. You can use the bundled profile,
-customize it in "Edit profile", create your own from scratch,
-or import any third-party LED profile.
+The Polsimer F74LED SimHub plugin sends SimHub LED Effects Engine output
+to the wheel's 12 LEDs over USB. Configure the effects in SimHub and use
+the plugin's settings tab to check the wheel connection and adjust hardware
+brightness.
 
 ------------------------------------------------------------
 
@@ -21,20 +19,16 @@ or import any third-party LED profile.
    4. Click "Add/remove features" at the bottom-left sidebar
       and ensure "Polsimer F74LED" is checked
    5. Open the "Polsimer F74LED" tab in the left menu
-   6. Under "Telemetry Leds", click "Import profile",
-      select "Polsimer_F74LED.ledsprofile", and load it
-      (or create/select your own profile)
+   6. Configure LED effects in SimHub as desired
 
 ------------------------------------------------------------
 
 2. MANUAL INSTALLATION:
 
-   1. Copy "Polsimer.SimHub.Plugin.dll" directly into your main
-      SimHub installation folder (e.g. C:\Program Files (x86)\SimHub\)
+   1. Copy "Polsimer.SimHub.Plugin.dll" into your main SimHub
+      installation folder (e.g. C:\Program Files (x86)\SimHub\)
    2. Open SimHub, click "Add/remove features", and check "Polsimer F74LED"
-   3. Open the "Polsimer F74LED" tab in the left menu
-   4. Under "Telemetry Leds", click "Import profile" and select
-      "Polsimer_F74LED.ledsprofile" (or create a custom profile)
+   3. Open the "Polsimer F74LED" tab and configure LED effects in SimHub
 
 ------------------------------------------------------------
 

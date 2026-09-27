@@ -350,7 +350,7 @@ namespace Polsimer.Installer
 
                 RefreshStatus();
                 LblMessage.Foreground = (Brush)_bc.ConvertFromString("#98C379")!;
-                LblMessage.Text = (_simHubWasForceClosed ? "SimHub had to be force-closed; unsaved changes may not have been saved. " : string.Empty) + "Installation successful. Open SimHub, enable 'Polsimer F74LED' under 'Add/remove features', then import Polsimer_F74LED.ledsprofile if desired.";
+                LblMessage.Text = (_simHubWasForceClosed ? "SimHub had to be force-closed; unsaved changes may not have been saved. " : string.Empty) + "Installation successful. Open SimHub and enable 'Polsimer F74LED' under 'Add/remove features'.";
             }
             catch (UnauthorizedAccessException)
             {

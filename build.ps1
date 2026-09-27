@@ -59,12 +59,6 @@ Remove-Item -LiteralPath $resolvedInstallerOut -Recurse -Force
 Get-ChildItem -Path $stagingDir -Filter "*.pdb" -ErrorAction SilentlyContinue | Remove-Item -Force
 
 Write-Host "==> Gathering assets and compressing release ZIP..." -ForegroundColor Cyan
-$profilePath = Join-Path $rootDir "Polsimer_F74LED.ledsprofile"
-if (Test-Path $profilePath) {
-    Copy-Item $profilePath -Destination $stagingDir -Force
-} else {
-    Write-Warning "File 'Polsimer_F74LED.ledsprofile' not found in root directory!"
-}
 
 $txtReadmePath = Join-Path $rootDir "installer\readme.txt"
 if (Test-Path $txtReadmePath) {
