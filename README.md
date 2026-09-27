@@ -1,4 +1,4 @@
-﻿<div align="center">
+<div align="center">
 
 # Polsimer F74LED – SimHub Plugin
 
@@ -42,15 +42,14 @@ A native C# plugin and telemetry-driven LED profile for the **Polsimer F74LED** 
 
 ## Installation
 
-> ⚠️ **Important:** Newly installed plugins are hidden in SimHub by default. Enable the tab in the sidebar after installation (see step 3).
-
 ### ⚡ Auto (Recommended)
 
 1. Download and extract the latest `Polsimer-F74LED-SimHub-vX.X.X.zip` from [Releases](../../releases)
-2. Run `setup.exe` (accept the UAC prompt) and click **Install / update**
-3. Open **SimHub**, click **Add/remove features** at the bottom of the left sidebar, and check **Polsimer F74LED**
-4. Select the new **Polsimer F74LED** tab in the left navigation menu
-5. Under **Telemetry Leds**, click **Import profile**, choose `Polsimer_F74LED.ledsprofile`, and load it (or build/select your own custom profile)
+2. Close SimHub
+3. Run `setup.exe` and click **Install / update**
+4. Open **SimHub**, click **Add/remove features** at the bottom of the left sidebar, and check **Polsimer F74LED**
+5. Select the new **Polsimer F74LED** tab in the left navigation menu
+6. Under **Telemetry Leds**, click **Import profile**, choose `Polsimer_F74LED.ledsprofile`, and load it (or build/select your own custom profile)
 
 ### 🛠️ Manual
 
@@ -61,7 +60,7 @@ A native C# plugin and telemetry-driven LED profile for the **Polsimer F74LED** 
 ## Uninstallation
 
 To remove the plugin:
-* Run `setup.exe` and click **Uninstall**, or delete `Polsimer.SimHub.Plugin.dll` directly from your SimHub root directory.
+* Run `setup.exe` and click **Uninstall**. This removes the plugin and its saved settings.
 
 ## Troubleshooting
 

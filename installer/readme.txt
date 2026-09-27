@@ -1,4 +1,4 @@
-﻿============================================================
+============================================================
   Polsimer F74LED - SimHub Integration
   Author: kpulka247
   GitHub: https://github.com/kpulka247/polsimer-simhub-plugin
@@ -15,32 +15,31 @@ or import any third-party LED profile.
 
 1. AUTOMATIC INSTALLATION (RECOMMENDED):
 
-   1. Run "setup.exe" and click "Install / update".
-   2. Open SimHub.
-   3. Click "Add/remove features" at the bottom-left sidebar
-      and ensure "Polsimer F74LED" is checked.
-   4. Open the "Polsimer F74LED" tab in the left menu.
-   5. Under "Telemetry Leds", click "Import profile",
+   1. Close SimHub
+   2. Run "setup.exe" and click "Install / update"
+   3. Open SimHub
+   4. Click "Add/remove features" at the bottom-left sidebar
+      and ensure "Polsimer F74LED" is checked
+   5. Open the "Polsimer F74LED" tab in the left menu
+   6. Under "Telemetry Leds", click "Import profile",
       select "Polsimer_F74LED.ledsprofile", and load it
-      (or create/select your own profile).
+      (or create/select your own profile)
 
 ------------------------------------------------------------
 
 2. MANUAL INSTALLATION:
 
    1. Copy "Polsimer.SimHub.Plugin.dll" directly into your main
-      SimHub installation folder (e.g. C:\Program Files (x86)\SimHub\).
-   2. Open SimHub, click "Add/remove features", and check "Polsimer F74LED".
-   3. Open the "Polsimer F74LED" tab in the left menu.
+      SimHub installation folder (e.g. C:\Program Files (x86)\SimHub\)
+   2. Open SimHub, click "Add/remove features", and check "Polsimer F74LED"
+   3. Open the "Polsimer F74LED" tab in the left menu
    4. Under "Telemetry Leds", click "Import profile" and select
-      "Polsimer_F74LED.ledsprofile" (or create a custom profile).
+      "Polsimer_F74LED.ledsprofile" (or create a custom profile)
 
 ------------------------------------------------------------
 
 UNINSTALLATION:
-
-   * Run "setup.exe" and click "Uninstall", or delete
-     "Polsimer.SimHub.Plugin.dll" from your SimHub folder.
+   * Run "setup.exe" and click "Uninstall". This removes the plugin and its saved settings.
 
 ------------------------------------------------------------
 For issues, updates, and documentation, visit:

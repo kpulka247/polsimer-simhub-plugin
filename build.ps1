@@ -8,11 +8,27 @@ $releaseDir = Join-Path $rootDir "release"
 $stagingDir = Join-Path $releaseDir "staging"
 $zipFile = Join-Path $releaseDir "Polsimer-F74LED-SimHub-v$Version.zip"
 
-Write-Host "==> [1/4] Cleaning release directory..." -ForegroundColor Cyan
-if (Test-Path $releaseDir) { Remove-Item $releaseDir -Recurse -Force }
+function Remove-StagingDirectory {
+    if (-not (Test-Path -LiteralPath $stagingDir)) {
+        return
+    }
+
+    $releaseRoot = [System.IO.Path]::GetFullPath($releaseDir).TrimEnd([char[]]@('\', '/')) +
+        [System.IO.Path]::DirectorySeparatorChar
+    $stagingPath = [System.IO.Path]::GetFullPath($stagingDir)
+
+    if (-not $stagingPath.StartsWith($releaseRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
+        throw "Refusing to remove a staging path outside the release directory: $stagingPath"
+    }
+
+    Remove-Item -LiteralPath $stagingPath -Recurse -Force
+}
+
+New-Item -ItemType Directory -Path $releaseDir -Force | Out-Null
+Remove-StagingDirectory
 New-Item -ItemType Directory -Path $stagingDir | Out-Null
 
-Write-Host "==> [2/4] Building SimHub plugin DLL..." -ForegroundColor Cyan
+Write-Host "==> Building SimHub plugin DLL..." -ForegroundColor Cyan
 dotnet build (Join-Path $rootDir "src\Polsimer.SimHub.Plugin.csproj") -c Release
 if ($LASTEXITCODE -ne 0) { throw "Plugin compilation failed!" }
 
@@ -22,26 +38,27 @@ if (-not $pluginDll) {
 }
 Copy-Item $pluginDll.FullName -Destination $stagingDir -Force
 
-Write-Host "==> [3/4] Publishing standalone installer (setup.exe)..." -ForegroundColor Cyan
+Write-Host "==> Publishing .NET Framework installer (setup.exe)..." -ForegroundColor Cyan
 $installerOut = Join-Path $stagingDir "tmp_installer"
-dotnet publish (Join-Path $rootDir "installer\Polsimer.Installer.csproj") `
-    -c Release `
-    -r win-x64 `
-    --self-contained false `
-    -p:PublishSingleFile=true `
-    -p:AssemblyName=setup `
-    -o $installerOut
-if ($LASTEXITCODE -ne 0) { throw "Installer compilation failed!" }
+dotnet publish (Join-Path $rootDir "installer\Polsimer.Installer.csproj") -c Release -p:AssemblyName=setup -o $installerOut
+if ($LASTEXITCODE -ne 0) { throw "Installer publishing failed!" }
 
 $builtExe = Get-ChildItem -Path $installerOut -Filter "*setup*.exe" | Select-Object -First 1
 if (-not $builtExe) {
     throw "Installer binary not found in build directory!"
 }
 Move-Item $builtExe.FullName (Join-Path $stagingDir "setup.exe") -Force
-Remove-Item $installerOut -Recurse -Force
+
+$stagingRoot = [System.IO.Path]::GetFullPath($stagingDir).TrimEnd([char[]]@('\', '/')) +
+    [System.IO.Path]::DirectorySeparatorChar
+$resolvedInstallerOut = [System.IO.Path]::GetFullPath($installerOut)
+if (-not $resolvedInstallerOut.StartsWith($stagingRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
+    throw "Refusing to remove an installer output path outside staging: $resolvedInstallerOut"
+}
+Remove-Item -LiteralPath $resolvedInstallerOut -Recurse -Force
 Get-ChildItem -Path $stagingDir -Filter "*.pdb" -ErrorAction SilentlyContinue | Remove-Item -Force
 
-Write-Host "==> [4/4] Gathering assets and compressing release ZIP..." -ForegroundColor Cyan
+Write-Host "==> Gathering assets and compressing release ZIP..." -ForegroundColor Cyan
 $profilePath = Join-Path $rootDir "Polsimer_F74LED.ledsprofile"
 if (Test-Path $profilePath) {
     Copy-Item $profilePath -Destination $stagingDir -Force
@@ -49,7 +66,6 @@ if (Test-Path $profilePath) {
     Write-Warning "File 'Polsimer_F74LED.ledsprofile' not found in root directory!"
 }
 
-# Pobieranie readme.txt z katalogu installer
 $txtReadmePath = Join-Path $rootDir "installer\readme.txt"
 if (Test-Path $txtReadmePath) {
     Copy-Item $txtReadmePath -Destination $stagingDir -Force
@@ -58,6 +74,6 @@ if (Test-Path $txtReadmePath) {
 }
 
 Compress-Archive -Path "$stagingDir\*" -DestinationPath $zipFile -Force
-Remove-Item $stagingDir -Recurse -Force
+Remove-StagingDirectory
 
-Write-Host "`nBuild complete! Package created: $zipFile" -ForegroundColor Green
+Write-Host "Build complete. Package created: $zipFile" -ForegroundColor Green
