@@ -44,43 +44,7 @@ namespace Polsimer.SimHub.Plugin
                 12
             );
 
-            // Odczyt zapamiętanych ustawień profilu SimHuba
-            if (File.Exists(_storagePath))
-            {
-                try
-                {
-                    string json = File.ReadAllText(_storagePath);
-                    var container = JObject.Parse(json);
-
-                    if (container["Settings"] is JObject settingsObj)
-                    {
-                        var dict = settingsObj.ToObject<Dictionary<string, JToken>>();
-                        if (dict != null)
-                        {
-                            _ledSettings.SetSettings(dict, false);
-                        }
-                    }
-
-                    if (container["GlobalBrightnessPreset"] is JObject presetObj)
-                    {
-                        JsonConvert.PopulateObject(presetObj.ToString(), _ledSettings.GlobalBrightnessPreset);
-                    }
-                    else if (container["Brightness"] != null)
-                    {
-                        _ledSettings.GlobalBrightnessPreset.Brightness = (double)container["Brightness"];
-                    }
-                }
-                catch
-                {
-                    _ledSettings.LoadDefaults();
-                    SavePluginData();
-                }
-            }
-            else
-            {
-                _ledSettings.LoadDefaults();
-                SavePluginData();
-            }
+            LoadSettings();
 
             if (_ledSettings.GlobalBrightnessPreset != null)
             {
@@ -92,10 +56,10 @@ namespace Polsimer.SimHub.Plugin
 
             _ledSettings.IsEnabled = true;
 
-            // Odpytywanie obecności sprzętu w 60 FPS
-            _hardwarePollTimer = new DispatcherTimer(DispatcherPriority.Render)
+            // Monitor connection status and update ConnectionId on reconnect
+            _hardwarePollTimer = new DispatcherTimer(DispatcherPriority.Background)
             {
-                Interval = TimeSpan.FromMilliseconds(16)
+                Interval = TimeSpan.FromMilliseconds(50)
             };
             _hardwarePollTimer.Tick += (sender, args) =>
             {
@@ -149,6 +113,44 @@ namespace Polsimer.SimHub.Plugin
                 _ledSettings?.FinalizeModule();
             }
             catch { }
+        }
+
+        private void LoadSettings()
+        {
+            if (File.Exists(_storagePath))
+            {
+                try
+                {
+                    string json = File.ReadAllText(_storagePath);
+                    var container = JObject.Parse(json);
+
+                    if (container["Settings"] is JObject settingsObj)
+                    {
+                        var dict = settingsObj.ToObject<Dictionary<string, JToken>>();
+                        if (dict != null)
+                        {
+                            _ledSettings.SetSettings(dict, false);
+                        }
+                    }
+
+                    if (container["GlobalBrightnessPreset"] is JObject presetObj)
+                    {
+                        JsonConvert.PopulateObject(presetObj.ToString(), _ledSettings.GlobalBrightnessPreset);
+                    }
+                    else if (container["Brightness"] != null)
+                    {
+                        _ledSettings.GlobalBrightnessPreset.Brightness = (double)container["Brightness"];
+                    }
+                    return;
+                }
+                catch
+                {
+                    // Fallback to defaults
+                }
+            }
+
+            _ledSettings.LoadDefaults();
+            SavePluginData();
         }
 
         private void SavePluginData()
