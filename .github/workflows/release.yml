@@ -16,6 +16,7 @@ concurrency:
 
 jobs:
   release:
+    name: Create Release & Build
     runs-on: windows-latest
     timeout-minutes: 30
     env:
@@ -23,16 +24,19 @@ jobs:
       SimHubDir: ${{ github.workspace }}\.simhub
 
     steps:
-      - uses: actions/checkout@v7
+      - name: Checkout
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-node@v7
+      - name: Install Node.js
+        uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
 
-      - uses: actions/setup-dotnet@v6
+      - name: Install .NET
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 9.0.x
 
@@ -88,9 +92,10 @@ jobs:
           }
           Get-ChildItem $env:SimHubDir
 
-      - run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Release
+      - name: Create Release and Build
         run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
