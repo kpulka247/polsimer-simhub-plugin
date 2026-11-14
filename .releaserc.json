@@ -1,0 +1,22 @@
+{
+  "branches": ["main"],
+  "tagFormat": "v${version}",
+  "plugins": [
+    ["@semantic-release/commit-analyzer", { "preset": "conventionalcommits" }],
+    ["@semantic-release/release-notes-generator", { "preset": "conventionalcommits" }],
+    [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "pwsh -NoProfile -ExecutionPolicy Bypass -File build.ps1 -Version ${nextRelease.version}"
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "assets": [{ "path": "release/Polsimer-F74LED-SimHub-v*.zip" }],
+        "successComment": false,
+        "releasedLabels": false
+      }
+    ]
+  ]
+}

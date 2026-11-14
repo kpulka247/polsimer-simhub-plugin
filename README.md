@@ -1,6 +1,6 @@
 <div align="center">
 
-# Polsimer F74LED – SimHub Plugin
+# Polsimer F74LED - SimHub Plugin
 
 ![LED Effects Preview](docs/images/led_effects.gif)
 
@@ -34,6 +34,7 @@ A native C# plugin that connects the **Polsimer F74LED** steering wheel to SimHu
 1. Download and extract the latest `Polsimer-F74LED-SimHub-vX.X.X.zip` from [Releases](../../releases)
 2. Close SimHub
 3. Run `setup.exe` and click **Install / update**
+   * If Windows shows **Windows protected your PC**, click **More info → Run anyway**. The installer is not code-signed.
 4. Open **SimHub**, click **Add/remove features** at the bottom of the left sidebar, and check **Polsimer F74LED**
 5. Select the new **Polsimer F74LED** tab in the left navigation menu
 6. Use SimHub's LED Effects settings to configure the effects you want displayed on the wheel
@@ -54,3 +55,24 @@ To remove the plugin:
 * **Tab missing in SimHub:** Click **Add/remove features** at the very bottom of the left sidebar in SimHub and ensure **Polsimer F74LED** is enabled.
 * **LEDs not updating:** Verify the USB connection and check the **Connection status** in the Polsimer F74LED tab.
 * **Config persistence:** Close SimHub normally using the window close button or system tray icon rather than terminating the task.
+
+## Building from source
+
+Requirements: Windows, the .NET SDK, and SimHub installed locally.
+
+```powershell
+.\build.ps1 -Version 1.0.0 -SimHubDir "C:\Program Files (x86)\SimHub"
+```
+
+The package is written to `release\Polsimer-F74LED-SimHub-v<version>.zip`. Without `-SimHubDir`, the build uses the path set in [`src/Polsimer.SimHub.Plugin.csproj`](src/Polsimer.SimHub.Plugin.csproj).
+
+## Releases
+
+Releases are published automatically by [semantic-release](https://github.com/semantic-release/semantic-release) on every push to `main`. The version is derived from [Conventional Commits](https://www.conventionalcommits.org/):
+
+| Commit prefix | Release |
+| --- | --- |
+| `fix:`, `perf:` | Patch (1.0.0 → 1.0.1) |
+| `feat:` | Minor (1.0.0 → 1.1.0) |
+| `feat!:` or a `BREAKING CHANGE:` footer | Major (1.0.0 → 2.0.0) |
+| `docs:`, `chore:`, `ci:`, `refactor:`, … | No release |

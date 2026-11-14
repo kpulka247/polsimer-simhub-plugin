@@ -1,0 +1,96 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write # create tags and releases
+  issues: write # open an issue if a release fails
+  pull-requests: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    env:
+      # Read by build.ps1 and the plugin .csproj to locate SimHub's assemblies.
+      SimHubDir: ${{ github.workspace }}\.simhub
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 9.0.x
+
+      # The plugin compiles against SimHub's own DLLs, which can't be committed.
+      # Fetch them from the latest official SimHub release, cached per version.
+      - name: Resolve latest SimHub release
+        id: simhub
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $release = Invoke-RestMethod "https://api.github.com/repos/SHWotever/SimHub/releases/latest" `
+            -Headers @{ Authorization = "Bearer $env:GH_TOKEN" }
+          $asset = $release.assets | Where-Object name -like "SimHub.*.zip" | Select-Object -First 1
+          if (-not $asset) { throw "No SimHub installer asset found in release $($release.tag_name)" }
+          "version=$($release.tag_name)" >> $env:GITHUB_OUTPUT
+          "url=$($asset.browser_download_url)" >> $env:GITHUB_OUTPUT
+          Write-Host "SimHub $($release.tag_name): $($asset.browser_download_url)"
+
+      - name: Cache SimHub assemblies
+        id: simhub-cache
+        uses: actions/cache@v6
+        with:
+          path: .simhub
+          key: simhub-assemblies-${{ steps.simhub.outputs.version }}
+
+      - name: Extract SimHub assemblies
+        if: steps.simhub-cache.outputs.cache-hit != 'true'
+        shell: pwsh
+        env:
+          SIMHUB_URL: ${{ steps.simhub.outputs.url }}
+        run: |
+          $work = Join-Path $env:RUNNER_TEMP "simhub"
+          $installDir = Join-Path $work "install"
+          New-Item -ItemType Directory -Path $work -Force | Out-Null
+
+          Invoke-WebRequest $env:SIMHUB_URL -OutFile "$work\simhub.zip"
+          Expand-Archive "$work\simhub.zip" -DestinationPath $work -Force
+          $setup = Get-ChildItem $work -Filter "SimHubSetup*.exe" | Select-Object -First 1
+          if (-not $setup) { throw "SimHubSetup*.exe not found in the downloaded archive" }
+
+          # Inno Setup silent install into a throwaway folder on the runner.
+          $process = Start-Process $setup.FullName -PassThru -ArgumentList @(
+            "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART", "/SP-", "/NOICONS", "/DIR=`"$installDir`""
+          )
+          if (-not $process.WaitForExit(600000)) { $process.Kill(); throw "SimHub setup timed out" }
+          if ($process.ExitCode -ne 0) { throw "SimHub setup failed with exit code $($process.ExitCode)" }
+          Get-Process SimHubWPF -ErrorAction SilentlyContinue | Stop-Process -Force
+
+          New-Item -ItemType Directory -Path $env:SimHubDir -Force | Out-Null
+          foreach ($dll in "SimHub.Plugins.dll", "GameReaderCommon.dll", "HidSharp.dll", "BA63Driver.dll", "Newtonsoft.Json.dll") {
+            Copy-Item (Join-Path $installDir $dll) -Destination $env:SimHubDir
+          }
+          Get-ChildItem $env:SimHubDir
+
+      - run: npm ci
+
+      - name: Release
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

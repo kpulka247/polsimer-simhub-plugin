@@ -1,5 +1,7 @@
 param (
-    [string]$Version = "1.0.0"
+    [string]$Version = "1.0.0",
+    # Folder containing SimHub's assemblies. Defaults to the path set in the plugin's .csproj.
+    [string]$SimHubDir = $env:SimHubDir
 )
 
 $ErrorActionPreference = "Stop"
@@ -29,7 +31,9 @@ Remove-StagingDirectory
 New-Item -ItemType Directory -Path $stagingDir | Out-Null
 
 Write-Host "==> Building SimHub plugin DLL..." -ForegroundColor Cyan
-dotnet build (Join-Path $rootDir "src\Polsimer.SimHub.Plugin.csproj") -c Release
+$pluginBuildArgs = @("-c", "Release", "-p:Version=$Version")
+if ($SimHubDir) { $pluginBuildArgs += "-p:SimHubDir=$SimHubDir" }
+dotnet build (Join-Path $rootDir "src\Polsimer.SimHub.Plugin.csproj") @pluginBuildArgs
 if ($LASTEXITCODE -ne 0) { throw "Plugin compilation failed!" }
 
 $pluginDll = Get-ChildItem -Path (Join-Path $rootDir "src\bin\Release") -Filter "Polsimer.SimHub.Plugin.dll" -Recurse | Select-Object -First 1
@@ -40,7 +44,7 @@ Copy-Item $pluginDll.FullName -Destination $stagingDir -Force
 
 Write-Host "==> Publishing .NET Framework installer (setup.exe)..." -ForegroundColor Cyan
 $installerOut = Join-Path $stagingDir "tmp_installer"
-dotnet publish (Join-Path $rootDir "installer\Polsimer.Installer.csproj") -c Release -p:AssemblyName=setup -o $installerOut
+dotnet publish (Join-Path $rootDir "installer\Polsimer.Installer.csproj") -c Release -p:AssemblyName=setup -p:Version=$Version -o $installerOut
 if ($LASTEXITCODE -ne 0) { throw "Installer publishing failed!" }
 
 $builtExe = Get-ChildItem -Path $installerOut -Filter "*setup*.exe" | Select-Object -First 1

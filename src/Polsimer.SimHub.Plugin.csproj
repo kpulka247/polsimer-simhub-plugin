@@ -15,6 +15,9 @@
     <Platforms>AnyCPU</Platforms>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <UseWPF>true</UseWPF>
+
+    <!-- Folder holding SimHub's assemblies. Override with -p:SimHubDir=... or the SimHubDir environment variable. -->
+    <SimHubDir Condition="'$(SimHubDir)' == ''">D:\Program Files (x86)\SimHub</SimHubDir>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,25 +25,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- SimHub 64-bit Dependencies from Drive D: -->
+    <!-- SimHub assemblies, provided by the SimHub installation at runtime -->
     <Reference Include="SimHub.Plugins">
-      <HintPath>D:\Program Files (x86)\SimHub\SimHub.Plugins.dll</HintPath>
+      <HintPath>$(SimHubDir)\SimHub.Plugins.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="GameReaderCommon">
-      <HintPath>D:\Program Files (x86)\SimHub\GameReaderCommon.dll</HintPath>
+      <HintPath>$(SimHubDir)\GameReaderCommon.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="HidSharp">
-      <HintPath>D:\Program Files (x86)\SimHub\HidSharp.dll</HintPath>
+      <HintPath>$(SimHubDir)\HidSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="BA63Driver">
-      <HintPath>D:\Program Files (x86)\SimHub\BA63Driver.dll</HintPath>
+      <HintPath>$(SimHubDir)\BA63Driver.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>D:\Program Files (x86)\SimHub\Newtonsoft.Json.dll</HintPath>
+      <HintPath>$(SimHubDir)\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>

@@ -1,0 +1,10 @@
+{
+  "name": "polsimer-simhub-plugin",
+  "private": true,
+  "description": "Release tooling only. The plugin itself is built with build.ps1.",
+  "devDependencies": {
+    "@semantic-release/exec": "^7.1.0",
+    "conventional-changelog-conventionalcommits": "^9.3.1",
+    "semantic-release": "^25.0.9"
+  }
+}
