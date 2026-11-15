@@ -13,7 +13,7 @@
     [
       "@semantic-release/github",
       {
-        "assets": [{ "path": "release/Polsimer-F74LED-SimHub-v*.zip" }],
+        "assets": [{ "path": "release/Polsimer-F74LED-SimHub-v*.zip", "name": "Polsimer-F74LED-SimHub.zip" }],
         "successComment": false,
         "releasedLabels": false
       }
