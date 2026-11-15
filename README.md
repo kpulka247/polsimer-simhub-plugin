@@ -36,20 +36,18 @@ The Polsimer F74LED wheel has 12 LEDs, and this plugin lets SimHub drive them. E
 
 ## Installation
 
-<div align="center">
+> [!TIP]
+> **[Download the latest version](https://github.com/kpulka247/polsimer-simhub-plugin/releases/latest/download/Polsimer-F74LED-SimHub.zip)**, extract it, and run `setup.exe`.
 
-<a href="https://github.com/kpulka247/polsimer-simhub-plugin/releases/latest" title="Download the latest release"><img src="https://img.shields.io/github/v/release/kpulka247/polsimer-simhub-plugin?style=for-the-badge&logo=windows&logoColor=white&label=Download&labelColor=%23252525&color=%236f42c1"></a>
-
-</div>
+> [!WARNING]
+> The installer is not code-signed. If Windows shows **Windows protected your PC**, click **More info**, then **Run anyway**.
 
 <img src="docs/images/installer.png" alt="The setup window with the detected SimHub folder, the plugin status, and the Install / update and Uninstall buttons" width="320" align="right">
 
-1. Download `Polsimer-F74LED-SimHub-vX.X.X.zip` from the latest release and extract it.
+1. Extract `Polsimer-F74LED-SimHub.zip`.
 2. Close SimHub.
 3. Run `setup.exe` and click **Install / update**. The installer finds your SimHub folder. Click **Browse...** if it picks the wrong one.
 4. Open SimHub, click **Add/remove features** at the bottom of the left sidebar, and check **Polsimer F74LED**.
-
-If Windows shows **Windows protected your PC**, click **More info**, then **Run anyway**. The installer is not code-signed.
 
 To remove the plugin and its saved settings, run `setup.exe` and click **Uninstall**.
 
@@ -82,7 +80,7 @@ You need Windows, the [.NET SDK](https://dotnet.microsoft.com/download), and Sim
 .\build.ps1 -Version 1.0.0 -SimHubDir "C:\Program Files (x86)\SimHub"
 ```
 
-The build writes `release\Polsimer-F74LED-SimHub-v<version>.zip`. Without `-SimHubDir`, it uses the SimHub path in [`src/Polsimer.SimHub.Plugin.csproj`](src/Polsimer.SimHub.Plugin.csproj).
+The build writes `release\Polsimer-F74LED-SimHub-v<version>.zip`. The release uploads it as `Polsimer-F74LED-SimHub.zip`, so the download link in this README always gets the latest version. Without `-SimHubDir`, it uses the SimHub path in [`src/Polsimer.SimHub.Plugin.csproj`](src/Polsimer.SimHub.Plugin.csproj).
 
 The README images come from the originals in `docs/images/source/`. `installer.png` there is a window capture of `setup.exe` at 100% display scale. To render them again, run `python scripts/readme_images.py` (needs [Pillow](https://pypi.org/project/pillow/)).
 
