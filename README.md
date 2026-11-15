@@ -1,78 +1,99 @@
 <div align="center">
 
-# Polsimer F74LED - SimHub Plugin
+<img src="docs/images/banner.png" alt="Polsimer F74LED SimHub plugin banner" width="440">
 
-![LED Effects Preview](docs/images/led_effects.gif)
+<a href="https://github.com/kpulka247/polsimer-simhub-plugin/actions" title="GitHub Actions Workflow Status"><img src="https://img.shields.io/github/actions/workflow/status/kpulka247/polsimer-simhub-plugin/release.yml"></a>
+<a href="https://github.com/kpulka247/polsimer-simhub-plugin/releases" title="GitHub Release"><img src="https://img.shields.io/github/v/release/kpulka247/polsimer-simhub-plugin?logo=github&logoColor=white&color=%236f42c1"></a>
+<a href="https://github.com/kpulka247/polsimer-simhub-plugin/releases" title="GitHub Downloads"><img src="https://img.shields.io/github/downloads/kpulka247/polsimer-simhub-plugin/total?color=blue"></a>
+<a href="https://github.com/kpulka247/polsimer-simhub-plugin/blob/main/LICENSE" title="GitHub License"><img src="https://img.shields.io/github/license/kpulka247/polsimer-simhub-plugin?color=%23252525"></a>
 
-<p>
-  <img src="https://img.shields.io/badge/SimHub-Plugin-orange">
-  <img src="https://img.shields.io/badge/platform-Windows-0078D4?logo=windows&logoColor=white">
-  <a href="LICENSE"><img src="https://img.shields.io/github/license/kpulka247/polsimer-simhub-plugin"></a>
-
-</p>
+<a href="https://www.simhubdash.com/" title="SimHub"><img src="https://img.shields.io/badge/SimHub-plugin-orange"></a>
+<a title="Platform"><img src="https://img.shields.io/badge/platform-Windows-0078D4?logo=windows&logoColor=white"></a>
 
 </div>
 
 ## Overview
 
-A native C# plugin that connects the **Polsimer F74LED** steering wheel to SimHub's LED Effects Engine. It sends SimHub's LED output directly to the wheel over USB HID, without external middleware or background utilities.
+The Polsimer F74LED wheel has 12 LEDs, and this plugin lets SimHub drive them. Every effect you set up in SimHub's LED Effects Engine, such as shift lights, flags, and pit limiter, shows on the wheel. The plugin runs inside SimHub and talks to the wheel over USB HID, so no other app has to run in the background.
+
+<div align="center">
+
+<img src="docs/images/led_effects.gif" alt="Ten SimHub LED effects playing on the F74LED wheel" width="640">
+
+</div>
 
 ## Features
 
-* 🔌 **Native HID driver** — Operates directly inside SimHub process memory with 60 Hz hardware connection polling.
-* ☀️ **Hardware brightness** — Native integration with SimHub's global brightness slider and Day/Night mode presets.
-* 💾 **Persistent settings** — Retains brightness levels and hardware states across restarts.
-* ⚡ **Frame state sync** — Automatically resets timeline offsets on USB re-plug and game state changes to prevent frame desynchronization.
-* 🎮 **SimHub LED effects** — Displays effects configured in SimHub on the wheel's 12 LEDs, including game telemetry and track status.
+- 🔌 **Runs inside SimHub.** The plugin sends LED frames straight to the wheel over USB HID and checks the connection 20 times a second.
+- 🎮 **Every SimHub LED effect.** Game telemetry, shift lights, and flag colors from your SimHub profile light the wheel's 12 LEDs.
+- ☀️ **Real brightness control.** SimHub's brightness slider and Day and Night presets set the wheel's own LED brightness.
+- 🔁 **Recovers on re-plug.** Unplug the wheel or change game, and the effects pick up in sync again.
+- 💾 **Remembers your settings.** Brightness and wheel state stay the same after a restart.
 
-![SimHub Interface](docs/images/settings_preview.png)
+## Screenshots
+
+![The Polsimer F74LED tab in SimHub with the brightness slider, LED profile, and connection status](docs/images/settings_preview.png)
 
 ## Installation
 
-### ⚡ Auto (Recommended)
+<div align="center">
 
-1. Download and extract the latest `Polsimer-F74LED-SimHub-vX.X.X.zip` from [Releases](../../releases)
-2. Close SimHub
-3. Run `setup.exe` and click **Install / update**
-   * If Windows shows **Windows protected your PC**, click **More info → Run anyway**. The installer is not code-signed.
-4. Open **SimHub**, click **Add/remove features** at the bottom of the left sidebar, and check **Polsimer F74LED**
-5. Select the new **Polsimer F74LED** tab in the left navigation menu
-6. Use SimHub's LED Effects settings to configure the effects you want displayed on the wheel
+<a href="https://github.com/kpulka247/polsimer-simhub-plugin/releases/latest" title="Download the latest release"><img src="https://img.shields.io/github/v/release/kpulka247/polsimer-simhub-plugin?style=for-the-badge&logo=windows&logoColor=white&label=Download&labelColor=%23252525&color=%236f42c1"></a>
 
-### 🛠️ Manual
+</div>
 
-1. Copy `Polsimer.SimHub.Plugin.dll` into your SimHub installation folder (e.g., `C:\Program Files (x86)\SimHub\` or `D:\SimHub\`)
-2. Start SimHub, go to **Add/remove features** (or **Settings → Plugins**), and enable **Polsimer F74LED**
-3. Use SimHub's LED Effects settings to configure the effects you want displayed on the wheel
+<img src="docs/images/installer.png" alt="The setup window with the detected SimHub folder, the plugin status, and the Install / update and Uninstall buttons" width="320" align="right">
 
-## Uninstallation
+1. Download `Polsimer-F74LED-SimHub-vX.X.X.zip` from the latest release and extract it.
+2. Close SimHub.
+3. Run `setup.exe` and click **Install / update**. The installer finds your SimHub folder. Click **Browse...** if it picks the wrong one.
+4. Open SimHub, click **Add/remove features** at the bottom of the left sidebar, and check **Polsimer F74LED**.
 
-To remove the plugin:
-* Run `setup.exe` and click **Uninstall**. This removes the plugin and its saved settings.
+If Windows shows **Windows protected your PC**, click **More info**, then **Run anyway**. The installer is not code-signed.
 
-## Troubleshooting
+To remove the plugin and its saved settings, run `setup.exe` and click **Uninstall**.
 
-* **Tab missing in SimHub:** Click **Add/remove features** at the very bottom of the left sidebar in SimHub and ensure **Polsimer F74LED** is enabled.
-* **LEDs not updating:** Verify the USB connection and check the **Connection status** in the Polsimer F74LED tab.
-* **Config persistence:** Close SimHub normally using the window close button or system tray icon rather than terminating the task.
+<details>
+<summary>Install by hand</summary>
 
-## Building from source
+1. Copy `Polsimer.SimHub.Plugin.dll` into your SimHub folder, for example `C:\Program Files (x86)\SimHub\`.
+2. Open SimHub, click **Add/remove features**, and check **Polsimer F74LED**.
 
-Requirements: Windows, the .NET SDK, and SimHub installed locally.
+</details>
+
+## Usage
+
+Open the **Polsimer F74LED** tab in SimHub's left menu. The tab shows whether the wheel is connected and has the brightness slider. Choose the effects in SimHub's LED Effects settings, the same way as for any other LED device.
+
+<details>
+<summary>Troubleshooting</summary>
+
+- **The tab is missing.** Click **Add/remove features** at the bottom of SimHub's left sidebar and check **Polsimer F74LED**.
+- **The LEDs do not change.** Check the USB cable and the **Connection status** in the Polsimer F74LED tab.
+- **Settings reset after a restart.** Close SimHub with the window close button or the tray icon. Ending the task in Task Manager skips the save.
+
+</details>
+
+## Development & Build
+
+You need Windows, the [.NET SDK](https://dotnet.microsoft.com/download), and SimHub installed.
 
 ```powershell
 .\build.ps1 -Version 1.0.0 -SimHubDir "C:\Program Files (x86)\SimHub"
 ```
 
-The package is written to `release\Polsimer-F74LED-SimHub-v<version>.zip`. Without `-SimHubDir`, the build uses the path set in [`src/Polsimer.SimHub.Plugin.csproj`](src/Polsimer.SimHub.Plugin.csproj).
+The build writes `release\Polsimer-F74LED-SimHub-v<version>.zip`. Without `-SimHubDir`, it uses the SimHub path in [`src/Polsimer.SimHub.Plugin.csproj`](src/Polsimer.SimHub.Plugin.csproj).
 
-## Releases
+The README images come from the originals in `docs/images/source/`. `installer.png` there is a window capture of `setup.exe` at 100% display scale. To render them again, run `python scripts/readme_images.py` (needs [Pillow](https://pypi.org/project/pillow/)).
 
-Releases are published automatically by [semantic-release](https://github.com/semantic-release/semantic-release) on every push to `main`. The version is derived from [Conventional Commits](https://www.conventionalcommits.org/):
+[semantic-release](https://github.com/semantic-release/semantic-release) releases every push to `main`. It picks the version from [Conventional Commits](https://www.conventionalcommits.org/): `fix:` and `perf:` make a patch, `feat:` makes a minor, and `feat!:` or a `BREAKING CHANGE:` footer makes a major. `docs:`, `chore:`, `ci:`, and `refactor:` do not release.
 
-| Commit prefix | Release |
-| --- | --- |
-| `fix:`, `perf:` | Patch (1.0.0 → 1.0.1) |
-| `feat:` | Minor (1.0.0 → 1.1.0) |
-| `feat!:` or a `BREAKING CHANGE:` footer | Major (1.0.0 → 2.0.0) |
-| `docs:`, `chore:`, `ci:`, `refactor:`, … | No release |
+## License
+
+[MIT](./LICENSE).
+
+An unofficial project, not affiliated with Polsimer or SimHub. Polsimer, F74LED, and SimHub are trademarks of their owners.
+
+## Changelog
+
+Changes for each release are in [GitHub Releases](https://github.com/kpulka247/polsimer-simhub-plugin/releases).
