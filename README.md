@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/images/banner.png" alt="Polsimer F74LED SimHub plugin banner" width="440">
+<p><img src="docs/images/banner.png" alt="Polsimer F74LED SimHub plugin banner" width="440"></p>
 
 <a href="https://github.com/kpulka247/polsimer-simhub-plugin/actions" title="GitHub Actions Workflow Status"><img src="https://img.shields.io/github/actions/workflow/status/kpulka247/polsimer-simhub-plugin/release.yml"></a>
 <a href="https://github.com/kpulka247/polsimer-simhub-plugin/releases" title="GitHub Release"><img src="https://img.shields.io/github/v/release/kpulka247/polsimer-simhub-plugin?logo=github&logoColor=white&color=%236f42c1"></a>
