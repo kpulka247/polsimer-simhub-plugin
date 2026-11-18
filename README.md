@@ -86,6 +86,10 @@ The README images come from the originals in `docs/images/source/`. `installer.p
 
 [semantic-release](https://github.com/semantic-release/semantic-release) releases every push to `main`. It picks the version from [Conventional Commits](https://www.conventionalcommits.org/): `fix:` and `perf:` make a patch, `feat:` makes a minor, and `feat!:` or a `BREAKING CHANGE:` footer makes a major. `docs:`, `chore:`, `ci:`, and `refactor:` do not release.
 
+## Support
+
+If the plugin brings your wheel to life, you can [buy me a coffee](https://ko-fi.com/kpulka) ☕.
+
 ## License
 
 [MIT](./LICENSE).
